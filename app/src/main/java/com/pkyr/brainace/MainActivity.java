@@ -7,7 +7,6 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
