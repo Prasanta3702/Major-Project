@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/MenuLayoutTheme"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/model_subject_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/background_menu_icon"
+        app:tint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_subject" />
+
+    <TextView
+        android:id="@+id/model_subject_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Subject name"
+        style="@style/TextTheme"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/model_subject_icon"
+        app:layout_constraintTop_toTopOf="@+id/model_subject_icon" />
+
+    <TextView
+        android:id="@+id/model_subject_teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teacher name"
+        android:textSize="14sp"
+        android:alpha="0.8"
+        style="@style/TextTheme"
+        app:layout_constraintStart_toStartOf="@+id/model_subject_name"
+        app:layout_constraintTop_toBottomOf="@+id/model_subject_name" />
+
+    <ImageView
+        android:id="@+id/model_subject_arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:tint="@color/primaryColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_right_arrow" />
+</androidx.constraintlayout.widget.ConstraintLayout>

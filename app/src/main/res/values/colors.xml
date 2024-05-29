@@ -7,4 +7,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="primaryColor">#3F51B5</color>
+    <color name="secondaryColor">#03A9F4</color>
+
+    <color name="menu_icon_tint">@color/white</color>
+    <color name="status_bar_color">#919AF1</color>
+
+    <color name="dayBackColor">#F3E6FF</color>
+    <color name="nightBackColor">#141414</color>
+
+    <color name="cardDayColor">#FFFF</color>
+    <color name="cardNightColor">#262D40</color>
+
+    <color name="dividerDayColor">#E6E6E6</color>
+    <color name="dividerNightColor">#505050</color>
 </resources>
