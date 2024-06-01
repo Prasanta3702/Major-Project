@@ -2,6 +2,7 @@ package com.pkyr.brainace;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.pkyr.brainace.databinding.ActivityLoginBinding;
@@ -21,9 +22,13 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
 
+        // just by pass the login
+        binding.loginBtn.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+        });
     }
 
     private void login(String email, String password) throws Exception {
-
+        // write the login code here
     }
 }
