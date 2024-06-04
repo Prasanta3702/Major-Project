@@ -26,6 +26,11 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginBtn.setOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));
         });
+
+        // registration
+        binding.loginRegister.setOnClickListener(v -> {
+            startActivity(new Intent(this, RegistrationActivity.class));
+        });
     }
 
     private void login(String email, String password) throws Exception {
