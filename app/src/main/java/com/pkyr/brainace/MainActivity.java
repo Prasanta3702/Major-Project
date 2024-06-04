@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
         // disable seekbar
-        seekBarAttendance = findViewById(R.id.seekbar_attendance);
-        seekBarAttendance.setEnabled(false);
 
 
         // search listener
