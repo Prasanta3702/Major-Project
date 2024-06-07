@@ -118,8 +118,11 @@ public class AssignmentViewActivity extends AppCompatActivity {
         }
     }
 
-    public void navigateToAssignments() {
-        startActivity(new Intent(this, AssignmentListViewActivity.class));
+    public void navigateToAssignments(String subjectName, String teacher) {
+        Intent intent = new Intent(this, AssignmentListViewActivity.class);
+        intent.putExtra("subject_name", subjectName);
+        intent.putExtra("subject_teacher", teacher);
+        startActivity(intent);
     }
 
 

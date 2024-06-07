@@ -56,7 +56,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ItemView
 
         @Override
         public void onClick(View v) {
-            activity.navigateToAssignments();
+            activity.navigateToAssignments(subjectNameView.getText().toString(), subjectTeacherView.getText().toString());
         }
     }
 }

@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import com.pkyr.brainace.adapters.AssignmentAdapter;
 import com.pkyr.brainace.databinding.ActivitySearchViewBinding;
+import com.pkyr.brainace.model.AssignmentModel;
+
+import java.util.ArrayList;
 
 public class SearchViewActivity extends AppCompatActivity {
 
@@ -44,7 +47,7 @@ public class SearchViewActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
-        adapter = new AssignmentAdapter();
+        adapter = new AssignmentAdapter(getApplicationContext(), new ArrayList<AssignmentModel>());
         recyclerView.setAdapter(adapter);
 
     }

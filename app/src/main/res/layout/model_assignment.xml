@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/icon_assignment" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/model_assignment_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -29,18 +29,18 @@
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/model_assignment_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Subject Teacher"
         style="@style/TextTheme"
         android:textSize="14sp"
         android:alpha="0.8"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/model_assignment_name"
+        app:layout_constraintTop_toBottomOf="@+id/model_assignment_name" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/model_assignment_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -52,16 +52,16 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/model_assignment_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Android Development"
         android:alpha="0.5"
         android:textSize="12sp"
         style="@style/TextTheme"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintBottom_toBottomOf="@+id/model_assignment_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
+        app:layout_constraintTop_toTopOf="@+id/model_assignment_date" />
 
     <TextView
         android:id="@+id/textView5"
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/model_assignment_last_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="20 May 2024"
