@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageSlider imageSlider;
     private AppCompatSeekBar seekBarAttendance;
 
+    public static UserModel userModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    UserModel userModel = task.getResult().toObject(UserModel.class);
+                    userModel = task.getResult().toObject(UserModel.class);
 
                     // set title as the name
                     binding.title2.setText(userModel.getName());

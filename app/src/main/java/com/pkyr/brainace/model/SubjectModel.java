@@ -1,26 +1,17 @@
-package com.pkyr.brainace;
+package com.pkyr.brainace.model;
 
-public class Subject {
-    private String subjectName;
+public class SubjectModel {
     private String subjectCode;
+    private String subjectName;
     private String subjectTeacher;
 
-    public Subject() {
-        super();
+    public SubjectModel() {
     }
 
-    public Subject(String subjectName, String subjectCode, String subjectTeacher) {
-        this.subjectName = subjectName;
+    public SubjectModel(String subjectCode, String subjectName, String subjectTeacher) {
         this.subjectCode = subjectCode;
-        this.subjectTeacher = subjectTeacher;
-    }
-
-    public String getSubjectName() {
-        return subjectName;
-    }
-
-    public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+        this.subjectTeacher = subjectTeacher;
     }
 
     public String getSubjectCode() {
@@ -29,6 +20,14 @@ public class Subject {
 
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
     public String getSubjectTeacher() {
