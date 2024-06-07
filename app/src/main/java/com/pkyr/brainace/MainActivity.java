@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.pkyr.brainace.databinding.ActivityMainBinding;
 import com.pkyr.brainace.model.UserModel;
 import com.pkyr.brainace.utils.FirebaseUtils;
@@ -78,19 +79,21 @@ public class MainActivity extends AppCompatActivity {
         loadCurrentUserDetails();
     }
     private void loadCurrentUserDetails() {
-        FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task-> {
-            if(task.isSuccessful()) {
-                UserModel userModel = task.getResult().toObject(UserModel.class);
-                Toast.makeText(getApplicationContext(), userModel.getId(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), userModel.getName(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), userModel.getEmail(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), userModel.getCode(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), userModel.getCourse(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), userModel.getBatch(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), userModel.getSem(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), userModel.getSec(), Toast.LENGTH_SHORT).show();
+        try {
+            FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    UserModel userModel = task.getResult().toObject(UserModel.class);
+                    Toast.makeText(getApplicationContext(), userModel.getId(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), userModel.getName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), userModel.getEmail(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), userModel.getCode(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), userModel.getCourse(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), userModel.getBatch(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), userModel.getSem(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), userModel.getSec(), Toast.LENGTH_SHORT).show();
 
-            }
-        });
+                }
+            });
+        } catch(Exception e) {}
     }
 }

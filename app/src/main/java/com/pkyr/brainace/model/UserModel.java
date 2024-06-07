@@ -4,6 +4,7 @@ public class UserModel {
     private String id;
     private String name;
     private String email;
+    private String pass;
     private String code;
     private String course;
     private String batch;
@@ -13,10 +14,11 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(String id, String name, String email, String code, String course, String batch, String sem, String sec) {
+    public UserModel(String id, String name, String email, String pass, String code, String course, String batch, String sem, String sec) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.pass = pass;
         this.code = code;
         this.course = course;
         this.batch = batch;
@@ -26,6 +28,14 @@ public class UserModel {
 
     public String getId() {
         return id;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public void setId(String id) {

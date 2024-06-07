@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.pkyr.brainace.databinding.ActivityLoginBinding;
 import com.pkyr.brainace.utils.FirebaseUtils;
 
@@ -22,15 +24,9 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawableResource(R.drawable.background_login);
         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
-
-        if(FirebaseUtils.isLoggedIn()) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
-
         // just by pass the login
         binding.loginBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, MainActivity.class));
+            login(binding.loginEmail.getText().toString(), binding.loginPassword.getText().toString());
         });
 
         // registration
@@ -39,7 +35,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void login(String email, String password) throws Exception {
-        // write the login code here
+    private void login(String email, String password) {
+        try {
+            if(email.isEmpty()) {
+                binding.loginEmail.setError("Email required");
+            }
+            else if(password.isEmpty()) {
+                binding.loginPassword.setError("Password required");
+            } else {
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(task -> {
+                            if(task.isSuccessful()) {
+                                // navigate the main page
+                                startActivity(new Intent(this, MainActivity.class));
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Incorrect username & password", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

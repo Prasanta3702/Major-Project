@@ -2,6 +2,7 @@ package com.pkyr.brainace;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.auth.User;
 import com.pkyr.brainace.databinding.ActivityRegistrationBinding;
 import com.pkyr.brainace.model.UserModel;
@@ -85,7 +87,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
         binding.registerSaveBtn.setOnClickListener(v -> {
-
             name = binding.registerName.getText().toString();
             code = binding.registerCode.getText().toString();
             code = code.toLowerCase();
@@ -94,32 +95,61 @@ public class RegistrationActivity extends AppCompatActivity {
             // check the two password is match or not
             String password1 = binding.registerPassword1.getText().toString();
             String password2 = binding.registerPassword2.getText().toString();
-            if(password1.equals(password2)) {
+            if (password1.equals(password2)) {
                 password = password1;
             } else {
                 binding.registerPassword2.setError("Password not match");
             }
 
 
-            if(!name.isEmpty() && !code.isEmpty() && !email.isEmpty() && !password.isEmpty() && !department.isEmpty() && !batch.isEmpty() && !semester.isEmpty()
-            && !sec.isEmpty()) {
+            if (!name.isEmpty() && !code.isEmpty() && !email.isEmpty() && !password.isEmpty() && !department.isEmpty() && !batch.isEmpty() && !semester.isEmpty()
+                    && !sec.isEmpty()) {
 
                 UserModel userModel = new UserModel();
                 userModel.setId(FirebaseUtils.currentUserId());
                 userModel.setName(name);
                 userModel.setCode(code);
                 userModel.setEmail(email);
+                userModel.setPass(password);
                 userModel.setCourse(department);
                 userModel.setBatch(batch);
                 userModel.setSem(semester);
                 userModel.setSec(sec);
 
-                FirebaseUtils.createUser(getApplicationContext(), userModel);
+                createUser(getApplicationContext(), userModel);
 
             } else {
                 Toast.makeText(getApplicationContext(), "Filed empty", Toast.LENGTH_LONG).show();
             }
-
         });
+    }
+
+    /*
+    Creating User
+ */
+    public void createUser(Context context, UserModel userModel) {
+
+        try {
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(userModel.getEmail(), userModel.getPass())
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUtils.currentUserDetails().set(userModel).addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    // user creation success
+                                    //Toast.makeText(context, "User created", Toast.LENGTH_SHORT).show();
+                                    super.onBackPressed();
+                                } else {
+                                    // user creation failed
+                                    Toast.makeText(context, "User creation failed", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            // auth failed
+                            Toast.makeText(context, "Authentication failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (Exception e) {
+            Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

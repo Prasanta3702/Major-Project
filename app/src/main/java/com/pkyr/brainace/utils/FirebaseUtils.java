@@ -1,5 +1,6 @@
 package com.pkyr.brainace.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.pkyr.brainace.RegistrationActivity;
 import com.pkyr.brainace.Subject;
 import com.pkyr.brainace.model.UserModel;
 
@@ -33,39 +35,7 @@ public class FirebaseUtils {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId());
     }
 
-    public static CollectionReference allUserCollectionRef() {
+    public static CollectionReference getAllUserDetails() {
         return FirebaseFirestore.getInstance().collection("users");
     }
-
-
-
-
-    public static void createSubject(Context context, String course, String batch, String sem, Subject subject) {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-
-        DatabaseReference subjectRef = databaseReference.child("courses").child(course)
-                .child(batch).child(sem).child("subjects").child(subject.getSubjectName());
-        subjectRef.setValue(subject).addOnCompleteListener(task-> {
-            if(task.isSuccessful()) {
-                Toast.makeText(context, "Subject created success", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(context, "Subject created failed", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    public static void createUser(Context context, UserModel userModel) {
-        currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
-                    Toast.makeText(context, "User created success", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(context, "User created failed", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
 }
