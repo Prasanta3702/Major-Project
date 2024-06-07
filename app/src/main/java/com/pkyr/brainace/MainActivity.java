@@ -1,6 +1,5 @@
 package com.pkyr.brainace;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSeekBar;
 
@@ -46,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         slideModels.add(new SlideModel(R.drawable.image2, ScaleTypes.CENTER_CROP));
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
-        // disable seekbar
-
+        // account manage btn
+        binding.manageAccountBtn.setOnClickListener(v -> startActivity(new Intent(this, ManageAccountActivity.class)));
 
         // search listener
         binding.searchViewHome.setOnClickListener(v -> {
@@ -75,23 +74,23 @@ public class MainActivity extends AppCompatActivity {
         binding.menuPythonProgram.setOnClickListener(v -> {});
         binding.menuSeeAllProgram.setOnClickListener(v -> {});
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         loadCurrentUserDetails();
     }
+
+
     private void loadCurrentUserDetails() {
         try {
             FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     UserModel userModel = task.getResult().toObject(UserModel.class);
-                    if(userModel.getId() != null)
-                        Toast.makeText(getApplicationContext(), userModel.getId(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), userModel.getName(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), userModel.getEmail(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), userModel.getCode(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), userModel.getCourse(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), userModel.getBatch(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), userModel.getSem(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), userModel.getSec(), Toast.LENGTH_SHORT).show();
 
+                    // set title as the name
+                    binding.title2.setText(userModel.getName());
                 }
             });
         } catch(Exception e) {
