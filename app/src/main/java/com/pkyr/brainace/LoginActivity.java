@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.pkyr.brainace.databinding.ActivityLoginBinding;
+import com.pkyr.brainace.utils.FirebaseUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,6 +22,11 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawableResource(R.drawable.background_login);
         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
+
+        if(FirebaseUtils.isLoggedIn()) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
 
         // just by pass the login
         binding.loginBtn.setOnClickListener(v -> {

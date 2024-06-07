@@ -1,178 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".RegistrationActivity">
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create\nAccount"
-        android:textSize="28sp"
-        android:textColor="@color/primaryColor"
-        android:layout_marginTop="32dp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="48dp" />
-
     <LinearLayout
-        android:id="@+id/register_email_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/register_email"
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Create\nAccount"
+            android:textColor="@color/primaryColor"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
+        <LinearLayout
+            android:id="@+id/register_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/icon_email"
-            android:drawablePadding="8dp"
-            android:hint="Email"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"
-            android:inputType="textEmailAddress" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/register_password1"
+            <EditText
+                android:id="@+id/register_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:drawablePadding="8dp"
+                android:hint="Code"
+                android:inputType="textEmailAddress"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/register_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawablePadding="8dp"
+                android:hint="Name"
+                android:inputType="textEmailAddress"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/register_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/icon_email"
+                android:drawablePadding="8dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/register_password1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/icon_password"
+                android:drawablePadding="8dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/register_password2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_background"
+                android:drawableStart="@drawable/icon_password"
+                android:drawablePadding="8dp"
+                android:hint="Re-type password"
+                android:inputType="textPassword"
+                android:padding="12dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/register_educational_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawableStart="@drawable/icon_password"
-            android:drawablePadding="8dp"
-            android:hint="Password"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:inputType="textPassword" />
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-        <EditText
-            android:id="@+id/register_password2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawableStart="@drawable/icon_password"
-            android:drawablePadding="8dp"
-            android:hint="Re-type password"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:inputType="textPassword" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:orientation="horizontal"
+                android:padding="12dp">
 
+                <TextView
+                    style="@style/TextTheme"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Department"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/register_dept_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/departments" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_background"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/TextTheme"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Batch"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/register_batch_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/batches" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_background"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/TextTheme"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Semester"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/register_sem_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/semesters" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edit_text_background"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/TextTheme"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Sec"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/register_sec_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/secs" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/register_saveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:text="Register" />
+
+        </LinearLayout>
     </LinearLayout>
 
-
-    <LinearLayout
-        android:id="@+id/register_educational_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Department"
-                android:textSize="16sp"
-                android:layout_marginEnd="16dp"
-                style="@style/TextTheme"/>
-
-            <Spinner
-                android:id="@+id/register_dept_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Batch"
-                android:textSize="16sp"
-                android:layout_marginEnd="16dp"
-                style="@style/TextTheme"/>
-
-            <Spinner
-                android:id="@+id/register_batch_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/batches"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Semester"
-                android:textSize="16sp"
-                android:layout_marginEnd="16dp"
-                style="@style/TextTheme"/>
-
-            <Spinner
-                android:id="@+id/register_sem_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/semesters"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_background"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Sec"
-                android:textSize="16sp"
-                android:layout_marginEnd="16dp"
-                style="@style/TextTheme"/>
-
-            <Spinner
-                android:id="@+id/register_sec_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/secs"/>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/register_saveBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
