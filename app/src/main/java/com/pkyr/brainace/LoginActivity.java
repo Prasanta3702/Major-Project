@@ -24,6 +24,11 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawableResource(R.drawable.background_login);
         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
+        if(FirebaseUtils.isLoggedIn()) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+
         // just by pass the login
         binding.loginBtn.setOnClickListener(v -> {
             login(binding.loginEmail.getText().toString(), binding.loginPassword.getText().toString());
@@ -48,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.isSuccessful()) {
                                 // navigate the main page
                                 startActivity(new Intent(this, MainActivity.class));
+                                finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Incorrect username & password", Toast.LENGTH_SHORT).show();
                             }

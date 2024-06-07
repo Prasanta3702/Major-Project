@@ -106,7 +106,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     && !sec.isEmpty()) {
 
                 UserModel userModel = new UserModel();
-                userModel.setId(FirebaseUtils.currentUserId());
                 userModel.setName(name);
                 userModel.setCode(code);
                 userModel.setEmail(email);
@@ -133,6 +132,10 @@ public class RegistrationActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(userModel.getEmail(), userModel.getPass())
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+
+                            // set the auth id to user model
+                            userModel.setId(FirebaseUtils.currentUserId());
+
                             FirebaseUtils.currentUserDetails().set(userModel).addOnCompleteListener(task1 -> {
                                 if (task1.isSuccessful()) {
                                     // user creation success

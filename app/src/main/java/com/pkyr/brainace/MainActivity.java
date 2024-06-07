@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         Window window = getWindow();
         window.setBackgroundDrawableResource(R.drawable.background_top);
         window.setStatusBarColor(getResources().getColor(android.R.color.transparent));
@@ -83,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
             FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     UserModel userModel = task.getResult().toObject(UserModel.class);
-                    Toast.makeText(getApplicationContext(), userModel.getId(), Toast.LENGTH_SHORT).show();
+                    if(userModel.getId() != null)
+                        Toast.makeText(getApplicationContext(), userModel.getId(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getApplicationContext(), userModel.getName(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getApplicationContext(), userModel.getEmail(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getApplicationContext(), userModel.getCode(), Toast.LENGTH_SHORT).show();
@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-        } catch(Exception e) {}
+        } catch(Exception e) {
+            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
