@@ -7,7 +7,6 @@ public class AssignmentModel {
     private String assignment_date;
     private String assignment_last_date;
     private String assignment_question;
-    private String status = "false";
 
     public AssignmentModel() {
     }
@@ -27,14 +26,6 @@ public class AssignmentModel {
 
     public void setAssignment_name(String assignment_name) {
         this.assignment_name = assignment_name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getAssignment_subject() {

@@ -48,12 +48,6 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         holder.lastDate.setText(assignmentModel.getAssignment_last_date());
         holder.date.setText(assignmentModel.getAssignment_date());
         holder.subject.setText(assignmentModel.getAssignment_subject());
-        if(assignmentModel.getStatus().equals("true")) {
-            holder.uploadBtn.setText("Uploaded");
-            holder.uploadBtn.setEnabled(false);
-        } else {
-            holder.uploadBtn.setEnabled(true);
-        }
     }
 
     @Override

@@ -140,55 +140,9 @@ public class AssignmentUploadActivity extends AppCompatActivity {
                             assignmentRef.setValue(a).addOnCompleteListener(task2-> {
                                 if(task2.isSuccessful()) {
 
-                                    DatabaseReference aRef = databaseReference.child("bwu")
-                                            .child(MainActivity.userModel.getCourse())
-                                            .child(MainActivity.userModel.getBatch())
-                                            .child(MainActivity.userModel.getSem())
-                                            .child(MainActivity.userModel.getSec())
-                                            .child("subjects")
-                                            .child(subject)
-                                            .child("assignments")
-                                            .child(assignmentName);
-
-                                    aRef.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            if(snapshot.exists()) {
-                                                AssignmentModel aModel = snapshot.getValue(AssignmentModel.class);
-                                                aModel.setStatus("true");
-
-                                                Map<String, Object> map = new HashMap<>();
-                                                map.put("assignment_date", aModel.getAssignment_date());
-                                                map.put("assignment_last_date", aModel.getAssignment_last_date());
-                                                map.put("assignment_name", aModel.getAssignment_name());
-                                                map.put("assignment_question", aModel.getAssignment_question());
-                                                map.put("assignment_subject", aModel.getAssignment_subject());
-                                                map.put("assignment_teacher", aModel.getAssignment_teacher());
-                                                map.put("status", "true");
-
-                                                aRef.updateChildren(map).addOnCompleteListener(task4-> {
-                                                    if(task4.isSuccessful()) {
-
-                                                        binding.progressbar.setVisibility(View.GONE);
-                                                        binding.uploadBtn.setVisibility(View.VISIBLE);
-                                                        AssignmentUploadActivity.this.onBackPressed();
-
-                                                    } else {
-                                                        binding.progressbar.setVisibility(View.GONE);
-                                                        binding.uploadBtn.setVisibility(View.VISIBLE);
-                                                        Toast.makeText(getApplicationContext(), "Update failed", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-
-
+                                    binding.progressbar.setVisibility(View.GONE);
+                                    binding.uploadBtn.setVisibility(View.VISIBLE);
+                                    AssignmentUploadActivity.this.onBackPressed();
                                 }
                                 else {
                                     binding.progressbar.setVisibility(View.GONE);

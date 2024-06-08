@@ -3,11 +3,13 @@ package com.pkyr.brainace;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.pkyr.brainace.databinding.ActivityManageAccountBinding;
 import com.pkyr.brainace.model.UserModel;
 import com.pkyr.brainace.utils.FirebaseUtils;
@@ -26,6 +28,13 @@ public class ManageAccountActivity extends AppCompatActivity {
             setSupportActionBar(binding.toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        binding.logoutBtn.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
     }
 
     @Override
