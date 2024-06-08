@@ -1,26 +1,38 @@
 package com.pkyr.brainace.adapters;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.net.Uri;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pkyr.brainace.AssignmentListViewActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.pkyr.brainace.AssignmentUploadActivity;
+import com.pkyr.brainace.BuildConfig;
+import com.pkyr.brainace.MainActivity;
 import com.pkyr.brainace.R;
 import com.pkyr.brainace.model.AssignmentModel;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ItemViewHolder> {
@@ -59,7 +71,6 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
         TextView name, teacher, date, lastDate, subject;
         Button uploadBtn;
-        ProgressBar progressBar;
 
         public ItemViewHolder(View view) {
             super(view);
@@ -89,6 +100,87 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         @Override
         public void onClick(View v) {
             // write your code here
+            loadAssignmentQuestion(name.getText().toString(), subject.getText().toString());
+        }
+    }
+
+    private void loadAssignmentQuestion(String assignmentName, String subject) {
+        try {
+
+            Thread thread = new Thread(() -> {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference = database.getReference();
+
+                DatabaseReference ref = databaseReference.child("bwu")
+                        .child(MainActivity.userModel.getCourse())
+                        .child(MainActivity.userModel.getBatch())
+                        .child(MainActivity.userModel.getSem())
+                        .child(MainActivity.userModel.getSec())
+                        .child("subjects")
+                        .child(subject)
+                        .child("assignments")
+                        .child(assignmentName);
+
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()) {
+                            AssignmentModel assignmentModel = snapshot.getValue(AssignmentModel.class);
+
+                            Uri uri = Uri.parse(assignmentModel.getAssignment_question());
+                            downloadAndOpenPDF(uri, subject+"_"+assignmentName);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(context, "Couldn't load assignment", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+
+            thread.start();
+
+        } catch (Exception e) {
+            Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void downloadAndOpenPDF(Uri uri, String fileName) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference httpsReference = storage.getReferenceFromUrl(uri.toString());
+
+        final File localFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName+".pdf");
+
+        httpsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Successfully downloaded the file
+                Toast.makeText(context, "File saved", Toast.LENGTH_SHORT).show();
+                openPDF(localFile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle failed download
+                Toast.makeText(context, "Download failed: " + exception.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void openPDF(File file) {
+        Uri pdfUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(pdfUri, "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Intent chooser = Intent.createChooser(intent, "Open PDF");
+        try {
+            context.startActivity(chooser);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "No application to view PDF", Toast.LENGTH_SHORT).show();
         }
     }
 }

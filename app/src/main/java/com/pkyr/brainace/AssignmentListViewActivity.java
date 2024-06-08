@@ -63,16 +63,16 @@ public class AssignmentListViewActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
+        // load all assignments
+        assignmentList = new ArrayList<>();
+        loadAssignment();
+        assignmentAdapter = new AssignmentAdapter(this, assignmentList);
+        recyclerView.setAdapter(assignmentAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        assignmentList = new ArrayList<>();
-        loadAssignment();
-        assignmentAdapter = new AssignmentAdapter(this, assignmentList);
-        recyclerView.setAdapter(assignmentAdapter);
     }
 
     @Override
