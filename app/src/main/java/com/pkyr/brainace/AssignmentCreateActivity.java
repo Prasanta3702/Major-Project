@@ -7,12 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +28,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pkyr.brainace.databinding.ActivityAssignmentCreateBinding;
 import com.pkyr.brainace.model.AssignmentModel;
+
+import java.util.Calendar;
 
 public class AssignmentCreateActivity extends AppCompatActivity {
 
@@ -64,6 +69,14 @@ public class AssignmentCreateActivity extends AppCompatActivity {
 
         binding.assignmentQuestionChoose.setOnClickListener(v -> {
             pdfLauncher.launch("application/pdf");
+        });
+
+
+        binding.assignmentDateBtn.setOnClickListener(v -> {
+            getDate(binding.assignmentDate);
+        });
+        binding.assignmentLastDateBtn.setOnClickListener(v -> {
+            getDate(binding.assignmentLastDate);
         });
 
 
@@ -204,5 +217,25 @@ public class AssignmentCreateActivity extends AppCompatActivity {
             }
         }
         return result;
+    }
+
+    private void getDate(EditText editText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String[] months = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, year1, month1, dayOfMonth) -> {
+                    String selectedDate = dayOfMonth + " " + months[month1] + " " + year1;
+                    // set the view
+                    editText.setText(selectedDate);
+                },
+                year, month, day);
+
+        datePickerDialog.show();
     }
 }

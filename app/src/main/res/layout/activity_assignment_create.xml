@@ -86,11 +86,26 @@
                     android:layout_marginTop="8dp"
                     android:textStyle="bold"
                     android:text="Date"/>
-                <EditText
-                    android:id="@+id/assignment_date"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Assignment date"/>
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/assignment_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Assignment date"/>
+                    <ImageButton
+                        android:id="@+id/assignment_date_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_calender"
+                        app:tint="@color/primaryColor"
+                        android:backgroundTint="@android:color/transparent"/>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -98,11 +113,28 @@
                     android:layout_marginTop="8dp"
                     android:textStyle="bold"
                     android:text="Last date"/>
-                <EditText
-                    android:id="@+id/assignment_last_date"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Last date"/>
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/assignment_last_date"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="Last date"/>
+
+                    <ImageButton
+                        android:id="@+id/assignment_last_date_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_calender"
+                        android:background="@android:color/transparent"
+                        app:tint="@color/primaryColor"/>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
