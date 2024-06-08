@@ -47,8 +47,8 @@ public class SearchViewActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
-        adapter = new AssignmentAdapter(getApplicationContext(), new ArrayList<AssignmentModel>());
-        recyclerView.setAdapter(adapter);
+//        adapter = new AssignmentAdapter(this, new ArrayList<AssignmentModel>());
+//        recyclerView.setAdapter(adapter);
 
     }
 }

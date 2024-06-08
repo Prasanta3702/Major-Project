@@ -1,5 +1,7 @@
 package com.pkyr.brainace;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -8,10 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.pkyr.brainace.adapters.AssignmentAdapter;
 import com.pkyr.brainace.databinding.ActivityAssignmentListViewBinding;
 import com.pkyr.brainace.model.AssignmentModel;
+import com.pkyr.brainace.utils.SystemUtils;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class AssignmentListViewActivity extends AppCompatActivity {
@@ -54,6 +62,7 @@ public class AssignmentListViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+
     }
 
     @Override
