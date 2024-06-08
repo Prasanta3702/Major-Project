@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,8 +15,14 @@ import android.provider.OpenableColumns;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.pkyr.brainace.databinding.ActivityAssignmentCreateBinding;
 import com.pkyr.brainace.model.AssignmentModel;
 
@@ -25,7 +32,6 @@ public class AssignmentCreateActivity extends AppCompatActivity {
     private String subjectName;
     private String subjectTeacher;
     private Uri pdfURI = null;
-    private String pdfName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +53,13 @@ public class AssignmentCreateActivity extends AppCompatActivity {
 
         ActivityResultLauncher<String> pdfLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 result -> {
-                    if(result != null) {
-                        pdfURI = result;
-                        pdfName = getFileName(pdfURI);
-                        binding.assignmentQuestion.setText(pdfName);
-                    }
+                    try {
+                        if (result != null) {
+                            pdfURI = result;
+                            String pdfName = getFileName(pdfURI);
+                            binding.assignmentQuestion.setText(pdfName);
+                        }
+                    } catch (Exception ignored) {}
                 });
 
         binding.assignmentQuestionChoose.setOnClickListener(v -> {
@@ -65,15 +73,26 @@ public class AssignmentCreateActivity extends AppCompatActivity {
             String teacher = binding.assignmentTeacher.getText().toString().trim();
             String date = binding.assignmentDate.getText().toString().trim();
             String lastDate = binding.assignmentLastDate.getText().toString().trim();
-            String question = binding.assignmentQuestion.getText().toString().trim();
+            String question = "";
+            if(pdfURI != null) question = String.valueOf(pdfURI.toString());
 
-            AssignmentModel assignmentModel = new AssignmentModel(name, subject, teacher, date, lastDate, question);
-            assignmentModel.setAssignment_question(pdfName);
-            
-            if(!name.isEmpty() && !subject.isEmpty() && !teacher.isEmpty() && !date.isEmpty() && !lastDate.isEmpty() && pdfName != null)
-                createAssignment(assignmentModel);
-            else
-                Toast.makeText(getApplicationContext(), "Field required", Toast.LENGTH_SHORT).show();
+            if(name.isEmpty()) binding.assignmentName.setError("Name required");
+            else if(subject.isEmpty()) binding.assignmentSubject.setError("Subject required");
+            else if(teacher.isEmpty()) binding.assignmentTeacher.setError("Teacher required");
+            else if(date.isEmpty()) binding.assignmentDate.setError("Date required");
+            else if(lastDate.isEmpty()) binding.assignmentLastDate.setError("Last date required");
+            else if(question.isEmpty()) binding.assignmentQuestion.setError("Choose a question");
+            else {
+                AssignmentModel a = new AssignmentModel();
+                a.setAssignment_name(name);
+                a.setAssignment_subject(subject);
+                a.setAssignment_teacher(teacher);
+                a.setAssignment_date(date);
+                a.setAssignment_last_date(lastDate);
+                a.setAssignment_question(question);
+
+                createAssignment(a);
+            }
         });
     }
 
@@ -86,11 +105,21 @@ public class AssignmentCreateActivity extends AppCompatActivity {
     }
     
     private void createAssignment(AssignmentModel assignmentModel) {
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("Creating...");
+        progressDialog.show();
+
         try {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = database.getReference();
 
-            DatabaseReference assignmentRef = databaseReference.child("bwu")
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference();
+
+            StorageReference assignmentPDFRef = storageReference.child("bwu")
                     .child(MainActivity.userModel.getCourse())
                     .child(MainActivity.userModel.getBatch())
                     .child(MainActivity.userModel.getSem())
@@ -100,14 +129,56 @@ public class AssignmentCreateActivity extends AppCompatActivity {
                     .child("assignments")
                     .child(assignmentModel.getAssignment_name());
 
-            assignmentRef.setValue(assignmentModel).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    super.onBackPressed();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Assignment creation failed", Toast.LENGTH_SHORT).show();
+            assignmentPDFRef.putFile(Uri.parse(assignmentModel.getAssignment_question())).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if(task.isSuccessful()) {
+                        assignmentPDFRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if(task.isSuccessful()) {
+                                    assignmentModel.setAssignment_question(task.getResult().toString());
+
+                                    // load to database
+                                    DatabaseReference assignmentRef = databaseReference.child("bwu")
+                                            .child(MainActivity.userModel.getCourse())
+                                            .child(MainActivity.userModel.getBatch())
+                                            .child(MainActivity.userModel.getSem())
+                                            .child(MainActivity.userModel.getSec())
+                                            .child("subjects")
+                                            .child(subjectName)
+                                            .child("assignments")
+                                            .child(assignmentModel.getAssignment_name());
+
+                                    assignmentRef.setValue(assignmentModel).addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            // created success
+                                            progressDialog.dismiss();
+                                            AssignmentCreateActivity.this.onBackPressed();
+
+                                        } else {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(), "Assignment creation failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                                }
+                                else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Couldn't download file", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Couldn't store file", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
+
         } catch (Exception e) {
+            progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
