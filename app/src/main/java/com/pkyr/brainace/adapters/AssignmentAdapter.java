@@ -156,7 +156,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                 // Successfully downloaded the file
-                Toast.makeText(context, "File saved", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "File saved", Toast.LENGTH_SHORT).show();
                 openPDF(localFile);
             }
         }).addOnFailureListener(new OnFailureListener() {
