@@ -68,13 +68,12 @@
                             android:singleLine="true"
                             android:layout_weight="1"/>
 
-                        <androidx.appcompat.widget.AppCompatButton
+                        <ImageButton
                             android:id="@+id/assignment_answer_choose"
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="35dp"
-                            android:background="@drawable/btn_corner_radius"
-                            android:backgroundTint="#DCDCE6"
-                            android:text="Choose"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/icon_attach_file"
                             android:textAllCaps="false"/>
                     </LinearLayout>
 

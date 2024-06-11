@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -51,6 +52,11 @@ public class AssignmentUploadActivity extends AppCompatActivity {
         binding = ActivityAssignmentUploadBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if(getSupportActionBar() == null) {
+            setSupportActionBar(binding.toolbar);
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
         storage = FirebaseStorage.getInstance();
@@ -85,6 +91,14 @@ public class AssignmentUploadActivity extends AppCompatActivity {
 
             uploadAssignment();
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return true;
     }
 
     private void uploadAssignment() {
