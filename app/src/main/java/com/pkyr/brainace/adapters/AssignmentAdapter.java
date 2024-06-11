@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,7 +71,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name, teacher, date, lastDate, subject;
-        Button uploadBtn;
+        ImageButton uploadBtn;
 
         public ItemViewHolder(View view) {
             super(view);
