@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.pkyr.brainace.adapters.NoticeViewAdapter;
 import com.pkyr.brainace.databinding.ActivityNoticeViewBinding;
 import com.pkyr.brainace.model.NoticeModel;
+import com.pkyr.brainace.utils.NetworkUtils;
 
 import java.util.ArrayList;
 
@@ -55,7 +57,11 @@ public class NoticeViewActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        loadNotices();
+        if(!NetworkUtils.isNetworkActive(getApplicationContext())) {
+
+        } else {
+            loadNotices();
+        }
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.pkyr.brainace.adapters.AssignmentAdapter;
 import com.pkyr.brainace.adapters.SubjectAdapter;
 import com.pkyr.brainace.databinding.ActivityAssignmentViewBinding;
 import com.pkyr.brainace.model.SubjectModel;
+import com.pkyr.brainace.utils.NetworkUtils;
 
 import java.util.ArrayList;
 
@@ -79,7 +80,10 @@ public class AssignmentViewActivity extends AppCompatActivity {
         super.onResume();
 
         subjectList = new ArrayList<>();
-        loadSubjects();
+
+        if(NetworkUtils.isNetworkActive(getApplicationContext())) {
+            loadSubjects();
+        }
 
         subjectAdapter = new SubjectAdapter(this, subjectList);
         recyclerView.setAdapter(subjectAdapter);

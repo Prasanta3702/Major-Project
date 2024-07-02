@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.pkyr.brainace.databinding.ActivityMainBinding;
 import com.pkyr.brainace.model.UserModel;
 import com.pkyr.brainace.utils.FirebaseUtils;
+import com.pkyr.brainace.utils.NetworkUtils;
 
 import java.util.ArrayList;
 
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         // check network info
-        if(!isNetworkActive()) {
+        if(!NetworkUtils.isNetworkActive(this.getApplicationContext())) {
             Snackbar.make(binding.searchViewHome, "No internet connection", Snackbar.LENGTH_LONG).show();
         } else {
             loadCurrentUserDetails();
@@ -107,14 +109,5 @@ public class MainActivity extends AppCompatActivity {
         } catch(Exception e) {
             Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public boolean isNetworkActive() {
-        ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(manager != null) {
-            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isConnectedOrConnecting();
-        }
-        return false;
     }
 }
