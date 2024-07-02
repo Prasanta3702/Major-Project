@@ -37,8 +37,8 @@ public class NoticeViewActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if(getSupportActionBar() == null) {
-            setSupportActionBar(binding.toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            this.setSupportActionBar(binding.toolbar);
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         RecyclerView recyclerView = binding.recyclerView;

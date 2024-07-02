@@ -3,7 +3,10 @@ package com.pkyr.brainace;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSeekBar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
@@ -11,6 +14,7 @@ import android.widget.Toast;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.pkyr.brainace.databinding.ActivityMainBinding;
 import com.pkyr.brainace.model.UserModel;
@@ -75,13 +79,18 @@ public class MainActivity extends AppCompatActivity {
         binding.menuJavaProgram.setOnClickListener(v -> {});
         binding.menuPythonProgram.setOnClickListener(v -> {});
         binding.menuSeeAllProgram.setOnClickListener(v -> {});
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadCurrentUserDetails();
+
+        // check network info
+        if(!isNetworkActive()) {
+            Snackbar.make(binding.searchViewHome, "No internet connection", Snackbar.LENGTH_LONG).show();
+        } else {
+            loadCurrentUserDetails();
+        }
     }
 
 
@@ -98,5 +107,14 @@ public class MainActivity extends AppCompatActivity {
         } catch(Exception e) {
             Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public boolean isNetworkActive() {
+        ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(manager != null) {
+            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        }
+        return false;
     }
 }
