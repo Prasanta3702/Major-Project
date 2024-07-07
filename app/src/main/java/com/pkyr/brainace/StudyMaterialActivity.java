@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
@@ -42,9 +44,20 @@ public class StudyMaterialActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_material, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
         if(menuItem.getItemId() == android.R.id.home)
             super.onBackPressed();
+
+        if(menuItem.getItemId() == R.id.menu_material_create) {
+            Intent intent = new Intent(this, StudyMaterialCreateActivity.class);
+            startActivity(intent);
+        }
 
         return true;
     }
