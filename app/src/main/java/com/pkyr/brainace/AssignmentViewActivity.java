@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -66,6 +67,27 @@ public class AssignmentViewActivity extends AppCompatActivity {
         subjectList = new ArrayList<>();
         subjectAdapter = new SubjectAdapter(getApplicationContext(), subjectList);
         recyclerView.setAdapter(subjectAdapter);
+
+
+        // search view
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<SubjectModel> searchList = new ArrayList<>();
+                for(SubjectModel subjectModel : subjectList) {
+                    if(subjectModel.getSubjectName().toLowerCase().contains(s.toLowerCase())) {
+                        searchList.add(subjectModel);
+                    }
+                }
+                subjectAdapter.showSearchList(searchList);
+                return true;
+            }
+        });
     }
 
     @Override

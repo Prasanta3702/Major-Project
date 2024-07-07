@@ -29,6 +29,11 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ItemView
         this.subjectList = subjectList;
     }
 
+    public void showSearchList(ArrayList<SubjectModel> searchList) {
+        this.subjectList = searchList;
+        this.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
