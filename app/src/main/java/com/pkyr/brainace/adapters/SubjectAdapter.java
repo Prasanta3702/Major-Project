@@ -19,19 +19,14 @@ import com.pkyr.brainace.model.SubjectModel;
 
 import java.util.ArrayList;
 
-public class SubjectAdapter extends FirebaseRecyclerAdapter<SubjectModel, SubjectAdapter.ItemViewHolder> {
+public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ItemViewHolder> {
 
     private Context context;
+    private ArrayList<SubjectModel> subjectList;
 
-    public SubjectAdapter(Context context, @NonNull FirebaseRecyclerOptions<SubjectModel> options) {
-        super(options);
+    public SubjectAdapter(Context context, ArrayList<SubjectModel> subjectList) {
         this.context = context;
-    }
-
-    @Override
-    protected void onBindViewHolder(@NonNull ItemViewHolder holder, int position, @NonNull SubjectModel model) {
-        holder.subjectNameView.setText(model.getSubjectName());
-        holder.subjectTeacherView.setText(model.getSubjectTeacher());
+        this.subjectList = subjectList;
     }
 
     @NonNull
@@ -40,6 +35,18 @@ public class SubjectAdapter extends FirebaseRecyclerAdapter<SubjectModel, Subjec
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.model_subject, parent, false);
         return new ItemViewHolder(view);
     }
+
+    @Override
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        holder.subjectNameView.setText(subjectList.get(position).getSubjectName());
+        holder.subjectTeacherView.setText(subjectList.get(position).getSubjectTeacher());
+    }
+
+    @Override
+    public int getItemCount() {
+        return subjectList.size();
+    }
+
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView subjectNameView, subjectTeacherView;

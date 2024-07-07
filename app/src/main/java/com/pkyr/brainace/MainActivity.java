@@ -84,9 +84,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
+    public void onStart() {
+        super.onStart();
         // check network info
         if(!NetworkUtils.isNetworkActive(this.getApplicationContext())) {
             Snackbar.make(binding.searchViewHome, "No internet connection", Snackbar.LENGTH_LONG).show();
@@ -95,17 +94,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
     private void loadCurrentUserDetails() {
         try {
-            FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    userModel = task.getResult().toObject(UserModel.class);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            userModel = task.getResult().toObject(UserModel.class);
 
-                    // set title as the name
-                    binding.title2.setText(userModel.getName());
+                            // set title as the name
+                            binding.title2.setText(userModel.getName());
+                        }
+                    });
                 }
             });
+            thread.start();
+
         } catch(Exception e) {
             Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }

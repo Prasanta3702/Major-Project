@@ -37,6 +37,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
     private SubjectAdapter subjectAdapter;
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
+    private ArrayList<SubjectModel> subjectList;
 
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
@@ -61,6 +62,61 @@ public class AssignmentViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+
+        subjectList = new ArrayList<>();
+        subjectAdapter = new SubjectAdapter(getApplicationContext(), subjectList);
+        recyclerView.setAdapter(subjectAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(NetworkUtils.isNetworkActive(getApplicationContext())) {
+            try {
+                loadSubjects();
+                subjectAdapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                onResume();
+            }
+        }
+    }
+
+    public void loadSubjects() throws Exception {
+
+        DatabaseReference subjectRef = dbRef.child("bwu")
+                .child(MainActivity.userModel.getCourse())
+                .child(MainActivity.userModel.getBatch())
+                .child(MainActivity.userModel.getSem())
+                .child(MainActivity.userModel.getSec())
+                .child("subjects");
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                subjectRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()) {
+                            for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                SubjectModel subjectModel = snapshot1.getValue(SubjectModel.class);
+                                subjectList.add(subjectModel);
+                            }
+
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+
+        thread.start();
     }
 
     @Override
@@ -84,38 +140,5 @@ public class AssignmentViewActivity extends AppCompatActivity {
         }
 
         return true;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        
-        if(NetworkUtils.isNetworkActive(getApplicationContext())) {
-            // database query
-
-            try {
-                Query query = dbRef.child("bwu")
-                        .child(MainActivity.userModel.getCourse())
-                        .child(MainActivity.userModel.getBatch())
-                        .child(MainActivity.userModel.getSem())
-                        .child(MainActivity.userModel.getSec())
-                        .child("subjects");
-
-                FirebaseRecyclerOptions<SubjectModel> options = new FirebaseRecyclerOptions.Builder<SubjectModel>()
-                        .setQuery(query, SubjectModel.class)
-                        .build();
-
-                subjectAdapter = new SubjectAdapter(getApplicationContext(), options);
-                recyclerView.setAdapter(subjectAdapter);
-                subjectAdapter.startListening();
-
-                // stop the shimmer
-                shimmerFrameLayout.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-
-            } catch (Exception ignored) {
-                onResume();
-            }
-        }
     }
 }
