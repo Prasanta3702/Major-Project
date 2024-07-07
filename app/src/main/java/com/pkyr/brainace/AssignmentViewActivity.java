@@ -56,21 +56,6 @@ public class AssignmentViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
-
-        // database query
-        Query query = dbRef.child("bwu")
-                .child(MainActivity.userModel.getCourse())
-                .child(MainActivity.userModel.getBatch())
-                .child(MainActivity.userModel.getSem())
-                .child(MainActivity.userModel.getSec())
-                .child("subjects");
-
-        FirebaseRecyclerOptions<SubjectModel> options = new FirebaseRecyclerOptions.Builder<SubjectModel>()
-                .setQuery(query, SubjectModel.class)
-                .build();
-
-        subjectAdapter = new SubjectAdapter(getApplicationContext(), options);
-        recyclerView.setAdapter(subjectAdapter);
     }
 
     @Override
@@ -101,6 +86,20 @@ public class AssignmentViewActivity extends AppCompatActivity {
         super.onResume();
         
         if(NetworkUtils.isNetworkActive(getApplicationContext())) {
+            // database query
+            Query query = dbRef.child("bwu")
+                    .child(MainActivity.userModel.getCourse())
+                    .child(MainActivity.userModel.getBatch())
+                    .child(MainActivity.userModel.getSem())
+                    .child(MainActivity.userModel.getSec())
+                    .child("subjects");
+
+            FirebaseRecyclerOptions<SubjectModel> options = new FirebaseRecyclerOptions.Builder<SubjectModel>()
+                    .setQuery(query, SubjectModel.class)
+                    .build();
+
+            subjectAdapter = new SubjectAdapter(getApplicationContext(), options);
+            recyclerView.setAdapter(subjectAdapter);
             subjectAdapter.startListening();
         }
     }
