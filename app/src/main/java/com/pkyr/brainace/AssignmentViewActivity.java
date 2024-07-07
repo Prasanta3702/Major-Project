@@ -97,6 +97,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
                 subjectRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        subjectList.clear();
                         if(snapshot.exists()) {
                             for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                                 SubjectModel subjectModel = snapshot1.getValue(SubjectModel.class);

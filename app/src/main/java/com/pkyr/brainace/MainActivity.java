@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ImageSlider imageSlider;
-    private AppCompatSeekBar seekBarAttendance;
+    private boolean loadStatus = false;
 
     public static UserModel userModel;
 
@@ -63,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
 
         // all menu listener
         binding.menuDeptNotice.setOnClickListener(v -> { startActivity(new Intent(this, NoticeViewActivity.class));});
-        binding.menuSubjectAssignment.setOnClickListener(v -> { startActivity(new Intent(this, AssignmentViewActivity.class));});
+        binding.menuSubjectAssignment.setOnClickListener(v -> {
+            if(loadStatus) {
+                startActivity(new Intent(this, AssignmentViewActivity.class));
+            }
+        });
         binding.menuStudyMaterial.setOnClickListener(v -> startActivity(new Intent(this, StudyMaterialActivity.class)));
         binding.menuTextQuiz.setOnClickListener(v -> {});
 
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             userModel = task.getResult().toObject(UserModel.class);
-
+                            loadStatus = true;
                             // set title as the name
                             binding.title2.setText(userModel.getName());
                         }
