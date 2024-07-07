@@ -11,8 +11,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +35,8 @@ public class NoticeViewActivity extends AppCompatActivity {
     NoticeViewAdapter noticeViewAdapter;
     private ArrayList<NoticeModel> noticeList;
 
+    private ShimmerFrameLayout shimmerFrameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,8 @@ public class NoticeViewActivity extends AppCompatActivity {
             this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        shimmerFrameLayout = binding.shimmer;
+
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -51,6 +58,26 @@ public class NoticeViewActivity extends AppCompatActivity {
         noticeList = new ArrayList<>();
         noticeViewAdapter = new NoticeViewAdapter(this, noticeList);
         recyclerView.setAdapter(noticeViewAdapter);
+
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<NoticeModel> searchList = new ArrayList<>();
+                for(NoticeModel notice : noticeList) {
+                    if(notice.getNotice_sender().toLowerCase().contains(s.toLowerCase())
+                    || notice.getNotice_message().toLowerCase().contains(s.toLowerCase())) {
+                        searchList.add(notice);
+                    }
+                }
+                noticeViewAdapter.showSearchList(searchList);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -58,7 +85,7 @@ public class NoticeViewActivity extends AppCompatActivity {
         super.onResume();
 
         if(!NetworkUtils.isNetworkActive(getApplicationContext())) {
-
+            shimmerFrameLayout.startShimmer();
         } else {
             loadNotices();
         }
@@ -92,12 +119,17 @@ public class NoticeViewActivity extends AppCompatActivity {
             noticeRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    noticeList.clear();
                     if(snapshot.exists()) {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             NoticeModel m = snapshot1.getValue(NoticeModel.class);
                             noticeList.add(m);
                             noticeViewAdapter.notifyDataSetChanged();
                         }
+
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        binding.recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
 

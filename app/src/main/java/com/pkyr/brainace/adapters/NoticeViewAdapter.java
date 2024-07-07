@@ -23,6 +23,11 @@ public class NoticeViewAdapter extends RecyclerView.Adapter<NoticeViewAdapter.It
         this.noticeList = noticeList;
     }
 
+    public void showSearchList(ArrayList<NoticeModel> searchList) {
+        this.noticeList = searchList;
+        this.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public NoticeViewAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
