@@ -1,5 +1,8 @@
 package com.pkyr.brainace.utils;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -16,5 +19,9 @@ public class SystemUtils {
         String year = calendar.get(Calendar.YEAR)+"";
 
         return day+" "+month+" "+year;
+    }
+
+    public static void showToast(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 }

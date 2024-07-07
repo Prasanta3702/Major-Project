@@ -41,10 +41,10 @@ import java.util.ArrayList;
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ItemViewHolder> {
 
     ArrayList<AssignmentModel> assignmentList;
-    private Context context;
+    AssignmentListViewActivity activity;
 
-    public AssignmentAdapter(Context context, ArrayList<AssignmentModel> assignmentList) {
-        this.context = context;
+    public AssignmentAdapter(AssignmentListViewActivity activity, ArrayList<AssignmentModel> assignmentList) {
+        this.activity = activity;
         this.assignmentList = assignmentList;
     }
 
@@ -86,16 +86,18 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
             uploadBtn = view.findViewById(R.id.model_assignment_uploadBtn);
 
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+
             uploadBtn.setOnClickListener(v -> {
 
-                Intent intent = new Intent(context, AssignmentUploadActivity.class);
+                Intent intent = new Intent(activity.getApplicationContext(), AssignmentUploadActivity.class);
 
                 intent.putExtra("assignment_name", name.getText().toString());
                 intent.putExtra("assignment_teacher", teacher.getText().toString());
                 intent.putExtra("assignment_date", date.getText().toString());
                 intent.putExtra("assignment_last_date", lastDate.getText().toString());
                 intent.putExtra("assignment_subject", subject.getText().toString());
-                context.startActivity(intent);
+                activity.getApplicationContext().startActivity(intent);
 
             });
         }
@@ -108,6 +110,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
         @Override
         public boolean onLongClick(View view) {
+            activity.deleteAssignment(name.getText().toString());
             return true;
         }
     }
@@ -142,7 +145,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(context, "Couldn't load assignment", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity.getApplicationContext(), "Couldn't load assignment", Toast.LENGTH_SHORT).show();
                     }
                 });
             });
@@ -150,7 +153,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
             thread.start();
 
         } catch (Exception e) {
-            Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity.getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -158,7 +161,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference httpsReference = storage.getReferenceFromUrl(uri.toString());
 
-        final File localFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName+".pdf");
+        final File localFile = new File(activity.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName+".pdf");
 
         httpsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
@@ -171,13 +174,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle failed download
-                Toast.makeText(context, "Download failed: " + exception.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity.getApplicationContext(), "Download failed: " + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void openPDF(File file) {
-        Uri pdfUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file);
+        Uri pdfUri = FileProvider.getUriForFile(activity.getApplicationContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file);
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(pdfUri, "application/pdf");
@@ -186,9 +189,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
         Intent chooser = Intent.createChooser(intent, "Open PDF");
         try {
-            context.startActivity(chooser);
+            activity.startActivity(chooser);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "No application to view PDF", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity.getApplicationContext(), "No application to view PDF", Toast.LENGTH_SHORT).show();
         }
     }
 }

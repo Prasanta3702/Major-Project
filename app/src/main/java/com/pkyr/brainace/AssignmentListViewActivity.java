@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +23,18 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.pkyr.brainace.adapters.AssignmentAdapter;
 import com.pkyr.brainace.databinding.ActivityAssignmentListViewBinding;
 import com.pkyr.brainace.model.AssignmentModel;
@@ -43,6 +53,10 @@ public class AssignmentListViewActivity extends AppCompatActivity {
     private String subjectName;
     private String subjectTeacher;
 
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private StorageReference storageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,21 +72,25 @@ public class AssignmentListViewActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(subjectName);
         }
 
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         // load all assignments
         assignmentList = new ArrayList<>();
         loadAssignment();
         assignmentAdapter = new AssignmentAdapter(this, assignmentList);
         recyclerView.setAdapter(assignmentAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -97,9 +115,6 @@ public class AssignmentListViewActivity extends AppCompatActivity {
 
     private void loadAssignment() {
         try {
-
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference databaseReference = database.getReference();
             DatabaseReference assignmentRef = databaseReference.child("bwu")
                     .child(MainActivity.userModel.getCourse())
                     .child(MainActivity.userModel.getBatch())
@@ -131,5 +146,75 @@ public class AssignmentListViewActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void deleteAssignment(String assignmentName) {
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Deleting...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
+        DatabaseReference assignmentRef = databaseReference.child("bwu")
+                .child(MainActivity.userModel.getCourse())
+                .child(MainActivity.userModel.getBatch())
+                .child(MainActivity.userModel.getSem())
+                .child(MainActivity.userModel.getSec())
+                .child("subjects")
+                .child(subjectName)
+                .child("assignments")
+                .child(assignmentName);
+
+        StorageReference assignmentPDFRef = storageReference.child("bwu")
+                .child(MainActivity.userModel.getCourse())
+                .child(MainActivity.userModel.getBatch())
+                .child(MainActivity.userModel.getSem())
+                .child(MainActivity.userModel.getSec())
+                .child("subjects")
+                .child(subjectName)
+                .child("assignments")
+                .child(assignmentName);
+
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_assignment_delete, null, false);
+        dialog.setContentView(view);
+
+        LinearLayout deleteBtn = view.findViewById(R.id.delete_btn);
+        LinearLayout editBtn = view.findViewById(R.id.edit_btn);
+
+        deleteBtn.setOnClickListener(v -> {
+            dialog.dismiss();
+            progressDialog.show();
+
+            assignmentPDFRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    assignmentRef.removeValue().addOnSuccessListener(avoid -> {
+                        onResume();
+                        progressDialog.dismiss();
+                    }).addOnFailureListener(error -> {
+                        SystemUtils.showToast(getApplicationContext(), "Failed");
+                        progressDialog.dismiss();
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    assignmentRef.removeValue().addOnSuccessListener(avoid -> {
+                        onResume();
+                        progressDialog.dismiss();
+                    }).addOnFailureListener(error -> {
+                        SystemUtils.showToast(getApplicationContext(), "Failed");
+                        progressDialog.dismiss();
+                    });
+                }
+            });
+        });
+
+        editBtn.setOnClickListener(v -> {
+            // write the edit code
+        });
+
+        dialog.show();
     }
 }
