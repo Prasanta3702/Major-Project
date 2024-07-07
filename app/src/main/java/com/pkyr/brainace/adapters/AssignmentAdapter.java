@@ -91,13 +91,12 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
             uploadBtn.setOnClickListener(v -> {
 
                 Intent intent = new Intent(activity.getApplicationContext(), AssignmentUploadActivity.class);
-
                 intent.putExtra("assignment_name", name.getText().toString());
                 intent.putExtra("assignment_teacher", teacher.getText().toString());
                 intent.putExtra("assignment_date", date.getText().toString());
                 intent.putExtra("assignment_last_date", lastDate.getText().toString());
                 intent.putExtra("assignment_subject", subject.getText().toString());
-                activity.getApplicationContext().startActivity(intent);
+                activity.startActivity(intent);
 
             });
         }
