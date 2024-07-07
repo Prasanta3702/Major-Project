@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.pkyr.brainace.AssignmentListViewActivity;
 import com.pkyr.brainace.AssignmentUploadActivity;
 import com.pkyr.brainace.BuildConfig;
 import com.pkyr.brainace.MainActivity;
@@ -38,8 +40,8 @@ import java.util.ArrayList;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ItemViewHolder> {
 
-    Context context;
     ArrayList<AssignmentModel> assignmentList;
+    private Context context;
 
     public AssignmentAdapter(Context context, ArrayList<AssignmentModel> assignmentList) {
         this.context = context;
@@ -68,7 +70,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         return assignmentList.size();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView name, teacher, date, lastDate, subject;
         ImageButton uploadBtn;
@@ -102,6 +104,11 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
         public void onClick(View v) {
             // write your code here
             loadAssignmentQuestion(name.getText().toString(), subject.getText().toString());
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            return true;
         }
     }
 

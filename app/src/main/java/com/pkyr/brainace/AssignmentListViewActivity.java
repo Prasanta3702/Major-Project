@@ -113,6 +113,7 @@ public class AssignmentListViewActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()) {
+                        assignmentList.clear();
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             AssignmentModel assignmentModel = snapshot1.getValue(AssignmentModel.class);
                             assignmentList.add(assignmentModel);

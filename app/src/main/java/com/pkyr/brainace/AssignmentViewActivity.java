@@ -11,9 +11,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +36,7 @@ public class AssignmentViewActivity extends AppCompatActivity {
     ActivityAssignmentViewBinding binding;
     private SubjectAdapter subjectAdapter;
     private RecyclerView recyclerView;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
@@ -51,6 +54,8 @@ public class AssignmentViewActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance();
         dbRef = db.getReference();
+
+        shimmerFrameLayout = binding.shimmer;
 
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -87,20 +92,30 @@ public class AssignmentViewActivity extends AppCompatActivity {
         
         if(NetworkUtils.isNetworkActive(getApplicationContext())) {
             // database query
-            Query query = dbRef.child("bwu")
-                    .child(MainActivity.userModel.getCourse())
-                    .child(MainActivity.userModel.getBatch())
-                    .child(MainActivity.userModel.getSem())
-                    .child(MainActivity.userModel.getSec())
-                    .child("subjects");
 
-            FirebaseRecyclerOptions<SubjectModel> options = new FirebaseRecyclerOptions.Builder<SubjectModel>()
-                    .setQuery(query, SubjectModel.class)
-                    .build();
+            try {
+                Query query = dbRef.child("bwu")
+                        .child(MainActivity.userModel.getCourse())
+                        .child(MainActivity.userModel.getBatch())
+                        .child(MainActivity.userModel.getSem())
+                        .child(MainActivity.userModel.getSec())
+                        .child("subjects");
 
-            subjectAdapter = new SubjectAdapter(getApplicationContext(), options);
-            recyclerView.setAdapter(subjectAdapter);
-            subjectAdapter.startListening();
+                FirebaseRecyclerOptions<SubjectModel> options = new FirebaseRecyclerOptions.Builder<SubjectModel>()
+                        .setQuery(query, SubjectModel.class)
+                        .build();
+
+                subjectAdapter = new SubjectAdapter(getApplicationContext(), options);
+                recyclerView.setAdapter(subjectAdapter);
+                subjectAdapter.startListening();
+
+                // stop the shimmer
+                shimmerFrameLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+
+            } catch (Exception ignored) {
+                onResume();
+            }
         }
     }
 }
