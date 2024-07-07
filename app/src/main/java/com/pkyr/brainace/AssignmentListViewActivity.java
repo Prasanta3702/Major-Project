@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -146,12 +147,57 @@ public class AssignmentListViewActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteAssignment(String assignmentName) {
+    public void deleteOrEditAssignment(String assignmentName) {
 
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_assignment_delete, null, false);
+        dialog.setContentView(view);
+
+        LinearLayout deleteBtn = view.findViewById(R.id.delete_btn);
+        LinearLayout editBtn = view.findViewById(R.id.edit_btn);
+
+        deleteBtn.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure?")
+                    .setCancelable(false)
+                    .setPositiveButton("Ok", ((dialogInterface, i) -> {
+                        builder.create().dismiss();
+                        delete(assignmentName);
+                    }))
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                        builder.create().dismiss();
+                    });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        });
+
+        editBtn.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Alert");
+            builder.setIcon(R.drawable.icon_alert);
+            builder.setMessage("You can change only the Assignment last date and question.");
+            builder.setPositiveButton("Ok", (dialogInterface, i) -> {
+                // write the code
+            });
+
+            AlertDialog editAlertDialog = builder.create();
+            editAlertDialog.show();
+        });
+
+        dialog.show();
+    }
+
+    private void delete(String assignmentName) {
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Deleting...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
 
         DatabaseReference assignmentRef = databaseReference.child("bwu")
                 .child(MainActivity.userModel.getCourse())
@@ -173,46 +219,29 @@ public class AssignmentListViewActivity extends AppCompatActivity {
                 .child("assignments")
                 .child(assignmentName);
 
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_assignment_delete, null, false);
-        dialog.setContentView(view);
-
-        LinearLayout deleteBtn = view.findViewById(R.id.delete_btn);
-        LinearLayout editBtn = view.findViewById(R.id.edit_btn);
-
-        deleteBtn.setOnClickListener(v -> {
-            dialog.dismiss();
-            progressDialog.show();
-
-            assignmentPDFRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    assignmentRef.removeValue().addOnSuccessListener(avoid -> {
-                        onResume();
-                        progressDialog.dismiss();
-                    }).addOnFailureListener(error -> {
-                        SystemUtils.showToast(getApplicationContext(), "Failed");
-                        progressDialog.dismiss();
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    assignmentRef.removeValue().addOnSuccessListener(avoid -> {
-                        onResume();
-                        progressDialog.dismiss();
-                    }).addOnFailureListener(error -> {
-                        SystemUtils.showToast(getApplicationContext(), "Failed");
-                        progressDialog.dismiss();
-                    });
-                }
-            });
+        assignmentPDFRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                assignmentRef.removeValue().addOnSuccessListener(avoid -> {
+                    onResume();
+                    progressDialog.dismiss();
+                }).addOnFailureListener(error -> {
+                    SystemUtils.showToast(getApplicationContext(), "Failed");
+                    progressDialog.dismiss();
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                assignmentRef.removeValue().addOnSuccessListener(avoid -> {
+                    onResume();
+                    progressDialog.dismiss();
+                }).addOnFailureListener(error -> {
+                    SystemUtils.showToast(getApplicationContext(), "Failed");
+                    progressDialog.dismiss();
+                });
+            }
         });
 
-        editBtn.setOnClickListener(v -> {
-            // write the edit code
-        });
-
-        dialog.show();
     }
 }

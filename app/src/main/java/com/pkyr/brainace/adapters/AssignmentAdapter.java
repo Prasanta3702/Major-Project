@@ -109,7 +109,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.It
 
         @Override
         public boolean onLongClick(View view) {
-            activity.deleteAssignment(name.getText().toString());
+            activity.deleteOrEditAssignment(name.getText().toString());
             return true;
         }
     }
