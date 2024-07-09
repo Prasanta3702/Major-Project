@@ -104,10 +104,18 @@
                     style="@style/CardTheme"
                     android:orientation="vertical">
 
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <include layout="@layout/shimmer_material_list"/>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

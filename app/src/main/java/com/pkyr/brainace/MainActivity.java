@@ -65,11 +65,17 @@ public class MainActivity extends AppCompatActivity {
         binding.menuDeptNotice.setOnClickListener(v -> {
             if(loadStatus) {
                 startActivity(new Intent(this, NoticeViewActivity.class));
+            } else {
+                loadCurrentUserDetails();
+                startActivity(new Intent(this, NoticeViewActivity.class));
             }
         });
 
         binding.menuSubjectAssignment.setOnClickListener(v -> {
             if(loadStatus) {
+                startActivity(new Intent(this, AssignmentViewActivity.class));
+            } else {
+                loadCurrentUserDetails();
                 startActivity(new Intent(this, AssignmentViewActivity.class));
             }
         });
@@ -77,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
         binding.menuStudyMaterial.setOnClickListener(v -> {
             if(loadStatus) {
                 startActivity(new Intent(this, StudyMaterialActivity.class));
+            } else {
+                loadCurrentUserDetails();
+                startActivity(new Intent(this, StudyMaterialActivity.class));
+
             }
         });
 
