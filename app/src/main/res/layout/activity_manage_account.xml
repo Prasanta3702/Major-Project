@@ -26,230 +26,229 @@
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_height="wrap_content"
+                android:elevation="0dp"
+                app:cardCornerRadius="12dp">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_view_recycler"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:elevation="0dp"
-                    app:cardCornerRadius="12dp">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="32dp"
+                    android:paddingVertical="16dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/brainware_logo"
+                        app:civ_border_color="#FFFF"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:id="@+id/profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Name"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/profile_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Email" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="0dp"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="32dp"
-                        android:paddingVertical="16dp"
-                        android:gravity="center">
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profile_image"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/brainware_logo"
-                            app:civ_border_color="#FFFF"
-                            app:civ_border_width="3dp"/>
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
                         <TextView
-                            android:id="@+id/profile_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:hint="Name"
-                            android:textSize="20sp"
-                            android:textStyle="bold"/>
-                        <TextView
-                            android:id="@+id/profile_email"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint="Email"/>
+                            android:text="Education"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            android:textColor="@color/primaryColor" />
+                        <ImageButton
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/icon_edit"
+                            app:tint="@color/primaryColor"
+                            android:background="@android:color/transparent"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:elevation="0dp"
-                    app:cardCornerRadius="12dp">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingVertical="16dp"
-                        android:paddingHorizontal="32dp">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/profile_code_title"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="Code"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/profile_code"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Code"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:elevation="0dp"
-                    app:cardCornerRadius="12dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingVertical="16dp"
-                        android:paddingHorizontal="32dp">
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="Course"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/profile_course"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Course"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:elevation="0dp"
-                    app:cardCornerRadius="12dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingVertical="16dp"
-                        android:paddingHorizontal="32dp">
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="Batch"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/profile_batch"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Batch"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:elevation="0dp"
-                    app:cardCornerRadius="12dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingVertical="16dp"
-                        android:paddingHorizontal="32dp">
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="Semester"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/profile_semester"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Semester"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:elevation="0dp"
-                    android:layout_marginBottom="8dp"
-                    app:cardCornerRadius="12dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingVertical="16dp"
-                        android:paddingHorizontal="32dp">
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="Sec"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/profile_sec"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Sec"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:elevation="0dp"
+                app:cardCornerRadius="12dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/logoutBtn"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="@android:color/holo_red_light"
-                        android:textAllCaps="false"
-                        android:text="Log Out"/>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Personal details"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            android:textColor="@color/primaryColor"/>
+                        <ImageButton
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            app:tint="@color/primaryColor"
+                            android:src="@drawable/icon_edit"/>
+                    </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/updateBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:textAllCaps="false"
-                        android:text="Update"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="No document"
+                        android:alpha="0.5"
+                        android:gravity="center"/>
+
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            </LinearLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
