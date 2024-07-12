@@ -58,14 +58,10 @@ public class SearchViewActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
         assignmentList = new ArrayList<>();
-//        adapter = new AssignmentAdapter(this, assignmentList);
     }
     @Override
     public void onResume() {
         super.onResume();
-
-        loadAllAssignments(assignmentList);
-        recyclerView.setAdapter(adapter);
     }
 
 

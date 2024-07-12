@@ -90,7 +90,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.menuTextQuiz.setOnClickListener(v -> {});
+        binding.menuTextQuiz.setOnClickListener(v -> {
+            if(loadStatus) {
+                startActivity(new Intent(this, QuizActivity.class));
+            } else {
+                loadCurrentUserDetails();
+                startActivity(new Intent(this, QuizActivity.class));
+
+            }
+        });
 
         binding.menuSubjectMarks.setOnClickListener(v -> {});
         binding.menuUploadedAssignment.setOnClickListener(v -> {});
