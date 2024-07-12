@@ -2,6 +2,7 @@ package com.pkyr.brainace.utils;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +30,7 @@ public class FirebaseUtils {
         return currentUserId() != null;
     }
 
-    public static DocumentReference currentUserDetails() {
+    public static DocumentReference currentUserDetails() throws FirebaseException {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId());
     }
 

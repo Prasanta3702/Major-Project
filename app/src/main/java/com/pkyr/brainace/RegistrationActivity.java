@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.auth.User;
 import com.pkyr.brainace.databinding.ActivityRegistrationBinding;
@@ -136,16 +137,20 @@ public class RegistrationActivity extends AppCompatActivity {
                             // set the auth id to user model
                             userModel.setId(FirebaseUtils.currentUserId());
 
-                            FirebaseUtils.currentUserDetails().set(userModel).addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
-                                    // user creation success
-                                    //Toast.makeText(context, "User created", Toast.LENGTH_SHORT).show();
-                                    super.onBackPressed();
-                                } else {
-                                    // user creation failed
-                                    Toast.makeText(context, "User creation failed", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            try {
+                                FirebaseUtils.currentUserDetails().set(userModel).addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        // user creation success
+                                        //Toast.makeText(context, "User created", Toast.LENGTH_SHORT).show();
+                                        super.onBackPressed();
+                                    } else {
+                                        // user creation failed
+                                        Toast.makeText(context, "User creation failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } catch (FirebaseException e) {
+                                e.printStackTrace();
+                            }
                         } else {
                             // auth failed
                             Toast.makeText(context, "Authentication failed", Toast.LENGTH_SHORT).show();

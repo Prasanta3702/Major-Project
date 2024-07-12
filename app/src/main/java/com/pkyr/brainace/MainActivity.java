@@ -126,24 +126,31 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadCurrentUserDetails() {
-        try {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
                     FirebaseUtils.currentUserDetails().get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             userModel = task.getResult().toObject(UserModel.class);
-                            loadStatus = true;
-                            // set title as the name
-                            binding.title2.setText(userModel.getName());
+                            if(userModel != null) {
+                                loadStatus = true;
+                                // set title as the name
+                                binding.title2.setText(userModel.getName());
+                            } else {
+                                Toast.makeText(getApplicationContext(), "User not exist", Toast.LENGTH_SHORT).show();
+                                FirebaseAuth.getInstance().signOut();
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
                         }
                     });
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
-            thread.start();
-
-        } catch(Exception e) {
-            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
+        thread.start();
     }
 }
