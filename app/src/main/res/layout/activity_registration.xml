@@ -18,9 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Create\nAccount"
+            android:text="Create Account"
             android:textColor="@color/primaryColor"
             android:textSize="28sp"
+            android:layout_gravity="center"
             android:textStyle="bold" />
 
         <View
