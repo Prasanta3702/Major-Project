@@ -15,27 +15,51 @@
     </style>
 
     <style name="BackTheme">
-        <item name="android:background">@color/nightBackColor</item>
+        <item name="android:background">@color/dayBackColor</item>
     </style>
 
     <style name="MenuLayoutTheme">
-        <item name="android:background">@drawable/shape_menu_layout_night</item>
+        <item name="android:background">@drawable/shape_menu_layout</item>
     </style>
 
     <style name="CardTheme">
-        <item name="android:background">@color/cardNightColor</item>
+        <item name="android:background">@color/cardDayColor</item>
     </style>
 
     <style name="TextTheme">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="DividerTheme">
-        <item name="android:background">@color/dividerNightColor</item>
+        <item name="android:background">@color/dividerDayColor</item>
     </style>
 
     <style name="ImageButtonTheme">
-        <item name="tint">@color/white</item>
+        <item name="tint">@color/black</item>
     </style>
+
+<!--    <style name="BackTheme">-->
+<!--        <item name="android:background">@color/nightBackColor</item>-->
+<!--    </style>-->
+
+<!--    <style name="MenuLayoutTheme">-->
+<!--        <item name="android:background">@drawable/shape_menu_layout_night</item>-->
+<!--    </style>-->
+
+<!--    <style name="CardTheme">-->
+<!--        <item name="android:background">@color/cardNightColor</item>-->
+<!--    </style>-->
+
+<!--    <style name="TextTheme">-->
+<!--        <item name="android:textColor">@color/white</item>-->
+<!--    </style>-->
+
+<!--    <style name="DividerTheme">-->
+<!--        <item name="android:background">@color/dividerNightColor</item>-->
+<!--    </style>-->
+
+<!--    <style name="ImageButtonTheme">-->
+<!--        <item name="tint">@color/white</item>-->
+<!--    </style>-->
 
 </resources>

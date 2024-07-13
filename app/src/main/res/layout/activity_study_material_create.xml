@@ -52,19 +52,24 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        style="@style/TextTheme"
                         android:text="Subject*"/>
 
                     <EditText
                         android:id="@+id/subject_field"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        android:hint="Subject"
+                        style="@style/TextTheme"
                         android:paddingHorizontal="10dp"
+                        android:textColorHint="@android:color/darker_gray"
                         android:background="@drawable/edit_text_background"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        style="@style/TextTheme"
                         android:text="Description"/>
 
                     <EditText
@@ -73,7 +78,9 @@
                         android:layout_height="100dp"
                         android:gravity="start"
                         android:hint="Description"
+                        style="@style/TextTheme"
                         android:padding="10dp"
+                        android:textColorHint="@android:color/darker_gray"
                         android:background="@drawable/edit_text_background"
                         android:inputType="textMultiLine"/>
 
@@ -97,6 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Choose"
+                            android:textColor="@color/black"
                             android:textAllCaps="false"
                             android:backgroundTint="#E6E6F0"/>
                     </LinearLayout>
@@ -107,6 +115,7 @@
                         android:layout_height="wrap_content"
                         android:text="Upload"
                         android:layout_gravity="right"
+                        android:textColor="@color/white"
                         android:layout_marginTop="16dp"/>
                 </LinearLayout>
 

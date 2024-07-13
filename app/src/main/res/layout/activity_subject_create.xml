@@ -31,6 +31,7 @@
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:elevation="0dp"
+            app:cardBackgroundColor="@color/cardDayColor"
             app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,36 +48,45 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/TextTheme"
                     android:text="Subject name"/>
 
                 <EditText
                     android:id="@+id/subject_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/TextTheme"
+                    android:textColorHint="@android:color/darker_gray"
                     android:hint="Name" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    style="@style/TextTheme"
                     android:text="Subject code"/>
 
                 <EditText
                     android:id="@+id/subject_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/TextTheme"
+                    android:textColorHint="@android:color/darker_gray"
                     android:hint="Code" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    style="@style/TextTheme"
                     android:text="Subject teacher"/>
 
                 <EditText
                     android:id="@+id/subject_teacher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@android:color/darker_gray"
+                    style="@style/TextTheme"
                     android:hint="Teacher" />
 
                 <Button
@@ -85,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginTop="16dp"
+                    android:textColor="@color/white"
                     android:text="Create" />
 
             </LinearLayout>
