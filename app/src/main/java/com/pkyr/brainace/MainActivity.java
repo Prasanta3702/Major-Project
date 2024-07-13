@@ -107,7 +107,15 @@ public class MainActivity extends AppCompatActivity {
 
         binding.menuFeedback.setOnClickListener(v -> {});
         binding.menuCgpaSgpa.setOnClickListener(v -> {});
-        binding.menuJobs.setOnClickListener(v -> {});
+        binding.menuJobs.setOnClickListener(v -> {
+            if(loadStatus) {
+                startActivity(new Intent(this, JobsActivity.class));
+            } else {
+                loadCurrentUserDetails();
+                startActivity(new Intent(this, JobsActivity.class));
+
+            }
+        });
         binding.menuSyllabus.setOnClickListener(v -> {});
 
         binding.menuCProgram.setOnClickListener(v -> {});
